@@ -1,12 +1,13 @@
 #include <iostream>
+#include<string>
 using namespace std;
 
 //creating the stack 
 
 //in this code stack is used to store the runtime of executed codes which can be further used for creating graph of runtime of every person
 int stack[100];
-int total = 100;
-int top = -1;
+int total = 100;          //total is the maximum elements that can be put in the stack
+int top = -1;             //stack top
 
 //implementing priority using singly linked list
 class node {
@@ -17,7 +18,7 @@ public:
 
     node() {                        //default constructor
         code = "NA";
-        pri = 2;
+        pri = 0;
         next = NULL;
     }
     node(string c, int pr) {        //parameterized constructor
@@ -27,11 +28,10 @@ public:
     }
 };
 
-class LL {
-public:
-    node* head;                  
-    node* front;
-    node* rear;
+class LL {                             //class linked list
+public:                
+    node* front;                        //front
+    node* rear;                        //rear
 
     LL() {
         // head = NULL;
@@ -39,10 +39,12 @@ public:
         rear = NULL;
     }
 
-    void insert(string s, int p) {
+//insert()  adds the element in the priority queue if the priority is 1 then the peron has leetcode premium
+//if the priority is 0 then the person does not have leetcode premium and is placed accordingly in the priority queue
+
+    void insert(string s, int p) {                      
         node* nn = new node(s, p);
         if (p == 1) {
-            // Insert before all nodes with priority 1
             if (front == NULL || front->pri == 0) {
                 nn->next = front;
                 front = nn;
@@ -62,7 +64,6 @@ public:
                 }
             }
         } else if (p == 0) {
-            // Insert at the end of the list
             if (rear == NULL) {
                 front = nn;
                 rear = nn;
@@ -72,6 +73,7 @@ public:
             }
         }
     }
+    //execute() checks the runtime of the function and the places the runtime of the executed code in the stack which can be further used by leetcode to generate graph
     void execute(string c)
     {
         int runtime = c.length();
@@ -83,6 +85,7 @@ public:
         }
     }
 
+    //displaystack()  displays the runtime of the executed codes in the stack
     void displaystack()
     {
         if(top==-1){
@@ -94,6 +97,8 @@ public:
         cout<<endl;
         }
     }
+
+    //compile() removes the front element of the queue and sends it to execute()
     void complie()
     {
         if(front == NULL){
@@ -113,16 +118,17 @@ public:
             delete temp;
         }
     }
+    //display() displays the remaining requests in the queue
 
     void display() {
-        node* temp = front; // Use head instead of front
-        if (temp == NULL) { // Check if the list is empty
+        node* temp = front; 
+        if (temp == NULL) { 
             cout << "Linked List is Empty" << endl;
             return;
         }
-        while (temp != NULL) { // Iterate until temp is NULL
-            cout << temp->code << " "; // Print the current node's code
-            temp = temp->next; // Move to the next node
+        while (temp != NULL) { 
+            cout << temp->code << " "; 
+            temp = temp->next;
         }
         cout << endl; 
     }
